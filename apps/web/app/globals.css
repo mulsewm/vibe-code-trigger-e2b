@@ -1,0 +1,64 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+:root {
+  --background: rgb(255, 255, 255);
+  --foreground: rgb(10, 10, 10);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(10, 10, 10);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(10, 10, 10);
+  --primary: rgb(41, 41, 41);
+  --primary-foreground: rgb(250, 250, 250);
+  --secondary: rgb(250, 250, 250);
+  --secondary-foreground: rgb(90, 90, 90);
+  --muted: rgb(240, 240, 240);
+  --muted-foreground: rgb(113, 113, 113);
+  --accent: rgb(245, 245, 245);
+  --accent-foreground: oklch(57.61% 0.2508 258.23);
+  --destructive: rgb(231, 0, 11);
+  --destructive-foreground: rgb(245, 245, 245);
+  --border: rgb(229, 229, 229);
+  --input: rgb(229, 229, 229);
+  --ring: rgb(161, 161, 161);
+  --chart-1: rgb(115, 115, 115);
+  --chart-2: rgb(115, 115, 115);
+  --chart-3: rgb(115, 115, 115);
+  --chart-4: rgb(115, 115, 115);
+  --chart-5: rgb(115, 115, 115);
+  --sidebar: rgb(250, 250, 250);
+  --sidebar-foreground: rgb(10, 10, 10);
+  --sidebar-primary: rgb(23, 23, 23);
+  --sidebar-primary-foreground: rgb(250, 250, 250);
+  --sidebar-accent: rgb(245, 245, 245);
+  --sidebar-accent-foreground: rgb(23, 23, 23);
+  --sidebar-border: rgb(229, 229, 229);
+  --sidebar-ring: rgb(161, 161, 161);
+  --font-sans: Geist, sans-serif;
+  --font-serif: Geist Mono, monospace;
+  --font-mono: Geist Mono, monospace;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: rgb(10, 10, 10);
+  --foreground: rgb(250, 250, 250);
+  --card: rgb(25, 25, 25);
+  --card-foreground: rgb(250, 250, 250);
+  --popover: rgb(38, 38, 38);
+  --popover-foreground: rgb(250, 250, 250);
+  --primary: rgb(115, 115, 115);
+  --primary-foreground: rgb(250, 250, 250);
+  --secondary: rgb(38, 38, 38);
+  --secondary-foreground: rgb(250, 250, 250);
+  --muted: rgb(38, 38, 38);
+  --muted-foreground: rgb(161, 161, 161);
+  --accent: rgb(64, 64, 64);
+  --accent-foreground: rgb(250, 250, 250);
+  --destructive: rgb(255, 100, 103);
+  --destructive-foreground: rgb(38, 38, 38);
+  --border: rgb(56, 56, 56);
+  --input: rgb(82, 82, 82);
+  --ring: rgb(115, 115, 115);
+}
+
