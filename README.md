@@ -2,208 +2,213 @@
 
 A refactored version of the Vercel Vibe Code OSS project that replaces Vercel sandbox execution with Trigger.dev workflows running on e2b sandboxes.
 
-## 🚀 **Ready to Deploy!**
+## Status
 
-This project comes with complete deployment automation. You can deploy to production in 5 minutes!
+This project is production-ready with complete deployment automation. Deploy to production in 5 minutes using the included deployment script.
 
-**Quick Deploy:**
 ```bash
 ./deploy.sh
 ```
 
-**See:** [QUICK_START.md](./QUICK_START.md) or [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
-
----
+See QUICK_START.md or DEPLOYMENT_GUIDE.md for detailed instructions.
 
 ## Architecture
 
-- **Frontend**: Next.js app (preserved from original)
-- **Backend API**: Node.js/TypeScript with Trigger.dev SDK
-- **Execution**: e2b sandboxes for isolated code execution
-- **Orchestration**: Trigger.dev for workflow management
+The application follows a distributed architecture with isolated execution environments:
 
+- Frontend: Next.js application (preserved from original)
+- Backend API: Node.js/TypeScript with Trigger.dev SDK
+- Execution Layer: e2b sandboxes for isolated code execution
+- Orchestration: Trigger.dev for workflow management
+
+Request flow:
 ```
 User → Frontend (Vercel) → API (Vercel) → Trigger.dev → e2b Sandbox
 ```
 
 ## Features
 
-✅ **Multi-Language Support**: Python, JavaScript, TypeScript, Bash  
-✅ **Real-Time Logs**: Stream execution output live  
-✅ **Isolated Execution**: Each run in secure e2b sandbox  
-✅ **Production Ready**: Health checks, monitoring, error handling  
-✅ **Fully Automated**: One-command deployment  
+- Multi-language support: Python, JavaScript, TypeScript, Bash
+- Real-time log streaming for execution output
+- Isolated execution environment for each code run
+- Production-ready with health checks and monitoring
+- Fully automated deployment pipeline
 
 ## Project Structure
 
 ```
 vibe-code-trigger-e2b/
 ├── apps/
-│   ├── web/                       # Frontend (Next.js)
-│   └── api/                       # Backend with Trigger.dev
+│   ├── web/                       # Frontend Next.js application
+│   └── api/                       # Backend with Trigger.dev integration
 │       ├── src/
 │       │   ├── services/
 │       │   │   └── e2bExecutor.ts # Code execution engine
 │       │   ├── triggers/
-│       │   │   └── executeCode.ts # Trigger.dev task
+│       │   │   └── executeCode.ts # Trigger.dev task definition
 │       │   ├── routes/
-│       │   │   ├── execute.ts     # API routes
-│       │   │   └── health.ts      # Health checks
-│       │   └── index.ts           # API server
-│       └── vercel.json            # Deployment config
+│       │   │   ├── execute.ts     # Code execution API endpoints
+│       │   │   └── health.ts      # Health check endpoints
+│       │   └── index.ts           # API server entry point
+│       └── vercel.json            # Vercel deployment configuration
 ├── packages/
-│   ├── sdk/                       # Trigger.dev utilities
-│   └── types/                     # Shared types
-├── deploy.sh                      # Automated deployment
-├── test-deployment.sh             # Testing script
-├── QUICK_START.md                 # 5-minute deploy guide
-├── DEPLOYMENT_GUIDE.md            # Comprehensive guide
+│   ├── sdk/                       # Trigger.dev SDK utilities
+│   └── types/                     # Shared TypeScript types
+├── deploy.sh                      # Automated deployment script
+├── test-deployment.sh             # Deployment testing script
+├── QUICK_START.md                 # 5-minute deployment guide
+├── DEPLOYMENT_GUIDE.md            # Comprehensive deployment documentation
 └── README.md                      # This file
 ```
 
-## Quick Start - Local Development
+## Local Development
 
 ### Prerequisites
 
 - Node.js 18.x or higher
-- Trigger.dev account and API key
-- e2b account and API key
+- npm or yarn package manager
+- Trigger.dev account with API key
+- e2b account with API key
 
-### Setup (2 minutes)
+### Setup
+
+Complete setup takes approximately 2 minutes:
 
 ```bash
-# 1. Install dependencies
+# Install all dependencies
 npm install
 
-# 2. Set up environment
+# Configure environment variables
 cp env.example .env.local
-# Edit .env.local with your API keys
+# Edit .env.local and add your API keys
 
-# 3. Start development
-cd apps/api && npm run trigger:dev  # Terminal 1
-cd apps/api && npm run dev           # Terminal 2
-cd apps/web && npm run dev           # Terminal 3
+# Start development servers (requires 3 terminal windows)
+# Terminal 1: Start Trigger.dev worker
+cd apps/api && npm run trigger:dev
+
+# Terminal 2: Start API server
+cd apps/api && npm run dev
+
+# Terminal 3: Start frontend development server
+cd apps/web && npm run dev
 ```
 
-**Access:** http://localhost:3000
+Access the application at http://localhost:3000
 
-**Details:** See [SETUP.md](./SETUP.md)
-
----
+For more detailed setup instructions, see SETUP.md
 
 ## Deployment to Production
 
-### Option 1: Automated Script (Recommended ⚡)
+### Option 1: Automated Deployment (Recommended)
+
+The fastest way to deploy everything to production:
 
 ```bash
-# 1. Set up environment
+# Set up environment variables
 cp env.example .env.local
-# Add your API keys to .env.local
+# Edit .env.local and add your production API keys
 
-# 2. Deploy everything
+# Run automated deployment
 ./deploy.sh
 
-# 3. Test deployment
+# Verify deployment
 ./test-deployment.sh <YOUR_API_URL>
 ```
 
-**Done!** You'll get live URLs for your app.
+The script handles all configuration, builds, and deployments automatically.
 
 ### Option 2: Manual Deployment
 
-Follow the step-by-step guide: **[QUICK_START.md](./QUICK_START.md)**
+Follow the step-by-step guide in QUICK_START.md for manual control over each deployment step.
 
-### Option 3: GitHub Actions (CI/CD)
+### Option 3: Continuous Integration/Deployment
 
-Push to `main` branch for automatic deployment.
+Push changes to the main branch to trigger automatic deployment via GitHub Actions. See .github/workflows/deploy.yml for configuration.
 
-See: **[.github/workflows/deploy.yml](./.github/workflows/deploy.yml)**
+## Documentation
 
----
+Deployment documentation:
+- QUICK_START.md - Deploy in 5 minutes
+- DEPLOYMENT_GUIDE.md - Complete deployment guide with detailed steps
+- DEPLOYMENT_SUMMARY.md - Quick overview of deployment process
+- VERCEL_SETUP.md - Vercel dashboard configuration
+- ENV_VARS.md - Environment variable reference
+- CHECKLIST.md - Pre-deployment checklist
 
-## 📚 Documentation
-
-### Deployment Docs
-- **[QUICK_START.md](./QUICK_START.md)** - Deploy in 5 minutes
-- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Complete guide (745 lines)
-- **[DEPLOYMENT_SUMMARY.md](./DEPLOYMENT_SUMMARY.md)** - Overview
-- **[VERCEL_SETUP.md](./VERCEL_SETUP.md)** - Dashboard configuration
-- **[ENV_VARS.md](./ENV_VARS.md)** - Environment variables
-- **[CHECKLIST.md](./CHECKLIST.md)** - Deployment checklist
-
-### Development Docs
-- **[SETUP.md](./SETUP.md)** - Local development setup
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Project overview
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Original deployment notes
-
----
+Development documentation:
+- SETUP.md - Local development setup guide
+- PROJECT_SUMMARY.md - Project architecture and design decisions
+- DEPLOYMENT.md - Original deployment notes and history
 
 ## Environment Variables
 
-### Required
-- `TRIGGER_API_KEY`: Trigger.dev API key ([get here](https://trigger.dev/))
-- `E2B_API_KEY`: e2b API key ([get here](https://e2b.dev/))
-- `NEXT_PUBLIC_API_URL`: API URL (e.g., `https://your-api.vercel.app`)
+### Required Variables
 
-### Optional
-- `PORT`: API server port (default: 3001)
-- `CORS_ORIGIN`: Allowed origins (default: `*`)
-- `EXECUTION_DEFAULT_TIMEOUT`: Default timeout in ms (default: 30000)
+- TRIGGER_API_KEY: Your Trigger.dev API key (obtain from https://trigger.dev/dashboard)
+- E2B_API_KEY: Your e2b API key (obtain from https://e2b.dev/console)
+- NEXT_PUBLIC_API_URL: Your API endpoint URL (e.g., https://your-api.vercel.app)
 
-**Full reference:** [ENV_VARS.md](./ENV_VARS.md)
+### Optional Variables
 
----
+- PORT: API server port (default: 3001)
+- CORS_ORIGIN: Allowed CORS origins (default: *)
+- EXECUTION_DEFAULT_TIMEOUT: Default execution timeout in milliseconds (default: 30000)
+- LOG_LEVEL: Application log level (default: info)
+
+See ENV_VARS.md for the complete reference.
 
 ## Development Commands
 
+Development operations:
 ```bash
-# Development
-npm run dev              # Start all apps
-npm run build            # Build all apps
-npm run lint             # Lint all apps
-npm run type-check       # Type check all apps
+npm run dev              # Start all development servers
+npm run build            # Build all applications
+npm run lint             # Run linter across all packages
+npm run type-check       # Perform TypeScript type checking
+```
 
-# Deployment
+Deployment operations:
+```bash
 ./deploy.sh              # Deploy to production
-./test-deployment.sh     # Test deployed API
+./test-deployment.sh     # Test deployed API endpoints
+```
 
-# Vercel
-vercel logs vibe-code-api    # View API logs
-vercel logs vibe-code-web    # View web logs
+Vercel operations:
+```bash
+vercel logs vibe-code-api    # View API server logs
+vercel logs vibe-code-web    # View frontend logs
 vercel env ls                # List environment variables
 ```
 
----
-
 ## API Endpoints
 
-### Execution
-- `POST /api/execute` - Execute code synchronously
-- `GET /api/execute/:id/logs` - Stream execution logs
+Code execution:
+- POST /api/execute - Execute code synchronously
+- GET /api/execute/:id/logs - Stream execution logs via WebSocket
 
-### Health Checks
-- `GET /health` - Basic health check
-- `GET /health/detailed` - Full system status
-- `GET /health/ready` - Readiness probe
-- `GET /health/live` - Liveness probe
-- `GET /health/version` - Version information
-
----
+Health checks:
+- GET /health - Basic health check
+- GET /health/detailed - Full system status report
+- GET /health/ready - Readiness probe for load balancers
+- GET /health/live - Liveness probe for container orchestration
+- GET /health/version - Version information
 
 ## Testing
 
 ### Local Testing
+
 ```bash
-# Start dev servers
+# Start all development servers
 npm run dev
 
-# Test in browser
+# Open in browser
 open http://localhost:3000
 ```
 
 ### Production Testing
+
 ```bash
-# Automated tests
+# Run automated test suite
 ./test-deployment.sh https://your-api.vercel.app
 
 # Manual health check
@@ -215,122 +220,107 @@ curl -X POST https://your-api.vercel.app/api/execute \
   -d '{"code":"print(\"Hello!\")","language":"python"}'
 ```
 
----
+## Execution Flow
 
-## Architecture Details
+The code execution process follows this sequence:
 
-### Code Execution Flow
+1. User submits code through the web interface
+2. Frontend sends request to the API endpoint
+3. API triggers a Trigger.dev task
+4. Trigger.dev creates a new e2b sandbox
+5. e2b executes the code in an isolated environment
+6. Execution results and logs stream back to the user in real-time
 
-1. **User** enters code in web interface
-2. **Frontend** sends request to API
-3. **API** triggers Trigger.dev task
-4. **Trigger.dev** creates e2b sandbox
-5. **e2b** executes code in isolated environment
-6. **Results** stream back to user in real-time
+## Technology Stack
 
-### Tech Stack
-
-**Frontend:**
+Frontend:
 - Next.js 16
 - React 19
-- TailwindCSS
-- Radix UI
-- Zustand (state management)
+- TailwindCSS for styling
+- Radix UI for components
+- Zustand for state management
 
-**Backend:**
-- Node.js + TypeScript
-- Express
+Backend:
+- Node.js with TypeScript
+- Express for HTTP server
 - Trigger.dev SDK v4
 - e2b SDK v2
 
-**Deployment:**
-- Vercel (serverless)
-- GitHub Actions (CI/CD)
-
----
+Deployment:
+- Vercel for hosting
+- GitHub Actions for CI/CD
 
 ## Supported Languages
 
-- 🐍 **Python** - Via `python3`
-- 📜 **JavaScript** - Via `node`
-- 📘 **TypeScript** - Via `tsx`
-- 🐚 **Bash** - Via shell execution
+- Python (via python3 interpreter)
+- JavaScript (via node)
+- TypeScript (via tsx compiler)
+- Bash (via shell execution)
 
----
+## Monitoring and Logs
 
-## Monitoring & Logs
+Dashboard access:
+- Vercel Dashboard: https://vercel.com/dashboard
+- Trigger.dev Dashboard: https://trigger.dev/
+- e2b Console: https://e2b.dev/
 
-### Dashboards
-- **Vercel:** https://vercel.com/dashboard
-- **Trigger.dev:** https://trigger.dev/
-- **e2b:** https://e2b.dev/
-
-### View Logs
+View application logs:
 ```bash
-# Real-time logs
+# Real-time log streaming
 vercel logs vibe-code-api --follow
 vercel logs vibe-code-web --follow
 
-# Recent logs
+# View recent logs
 vercel logs vibe-code-api
 ```
 
----
-
 ## Troubleshooting
 
-### Common Issues
+### TRIGGER_API_KEY not set
 
-**"TRIGGER_API_KEY not set"**
 ```bash
 vercel env add TRIGGER_API_KEY production
 vercel --prod
 ```
 
-**"e2b sandbox creation failed"**
-- Check e2b dashboard for credits
-- Verify API key is correct
+### e2b sandbox creation failed
 
-**"CORS error"**
+- Verify your e2b dashboard has available credits
+- Confirm your e2b API key is correct
+- Check e2b account status and limits
+
+### CORS errors in browser console
+
 ```bash
 vercel env add CORS_ORIGIN production
-# Enter your frontend URL
+# Enter your frontend URL when prompted
 vercel --prod
 ```
 
-**Full troubleshooting:** [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md#troubleshooting)
-
----
+For comprehensive troubleshooting, see DEPLOYMENT_GUIDE.md
 
 ## Contributing
 
-This is a refactored version of Vercel's Vibe Code OSS project. Original project by [@komiljon-ocapital](https://github.com/komiljon-ocapital).
-
----
+This is a refactored version of Vercel's Vibe Code OSS project. The original project was created by @komiljon-ocapital and the Vercel team.
 
 ## Resources
 
-- **Trigger.dev Docs:** https://trigger.dev/docs
-- **e2b Docs:** https://e2b.dev/docs
-- **Vercel Docs:** https://vercel.com/docs
-- **Original Vibe Code:** https://github.com/vercel-labs/vibe-code
-
----
+- Trigger.dev Documentation: https://trigger.dev/docs
+- e2b Documentation: https://e2b.dev/docs
+- Vercel Documentation: https://vercel.com/docs
+- Original Vibe Code: https://github.com/vercel-labs/vibe-code
 
 ## License
 
-MIT
+MIT License
 
----
+## Getting Started
 
-## 🚀 Get Started
+To get started:
 
-**Local Development:** [SETUP.md](./SETUP.md)  
-**Deploy to Production:** [QUICK_START.md](./QUICK_START.md) or run `./deploy.sh`
+1. Local Development: Follow SETUP.md for development environment setup
+2. Production Deployment: Run ./deploy.sh or follow QUICK_START.md
 
-**Questions?** Check the [documentation](#-documentation) or open an issue.
+For questions or issues, open an issue in the repository or refer to the relevant documentation file.
 
----
-
-**Built with ❤️ using Trigger.dev + e2b**
-
+Built using Trigger.dev and e2b.
