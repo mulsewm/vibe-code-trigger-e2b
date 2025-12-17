@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { tasks, runs } from '@trigger.dev/sdk/v3'
 import { executeCodeTask } from '../triggers/executeCode.js'
 import appConfig from '../config.js'
-import type { ExecutionRequest } from '@vibe-code/types'
+import type { ExecutionRequest } from '../types.js'
 
 const router = Router()
 

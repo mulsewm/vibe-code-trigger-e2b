@@ -5,7 +5,7 @@
 
 import { Sandbox, CommandExitError } from '@e2b/sdk'
 import appConfig from '../config.js'
-import type { ExecutionRequest, ExecutionResult } from '@vibe-code/types'
+import type { ExecutionRequest, ExecutionResult } from '../types.js'
 
 export class E2BExecutor {
   private apiKey: string

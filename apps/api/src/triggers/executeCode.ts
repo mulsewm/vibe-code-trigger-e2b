@@ -5,7 +5,7 @@
 import { task } from '@trigger.dev/sdk/v3'
 import { E2BExecutor } from '../services/e2bExecutor.js'
 import appConfig from '../config.js'
-import type { ExecutionRequest, ExecutionResult } from '@vibe-code/types'
+import type { ExecutionRequest, ExecutionResult } from '../types.js'
 
 export const executeCodeTask = task({
   id: 'execute-code',
