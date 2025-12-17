@@ -2,6 +2,23 @@
  * Shared Type Definitions for Web App
  */
 
+export interface Command {
+  cmdId: string
+  sandboxId: string
+  command: string
+  args: string[]
+  background?: boolean
+  startedAt: number
+  exitCode?: number
+  logs?: CommandLog[]
+}
+
+export interface CommandLog {
+  data: string
+  stream: 'stdout' | 'stderr'
+  timestamp: number
+}
+
 export interface ExecutionRequest {
   code: string
   language: string
@@ -22,4 +39,3 @@ export interface ExecutionResult {
   stderr?: string
   error?: string
 }
-

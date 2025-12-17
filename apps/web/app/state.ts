@@ -1,7 +1,7 @@
 'use client'
 
-import type { Command, CommandLog } from '@vibe-code/types'
 import { create } from 'zustand'
+import type { Command, CommandLog } from '../types'
 
 interface SandboxStore {
   addLog: (data: { sandboxId: string; cmdId: string; log: CommandLog }) => void
