@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && npm install && cd apps/api && npm run build",
-  "installCommand": "npm install --include=workspace-root"
+  "buildCommand": "npm run build",
+  "installCommand": "npm install --legacy-peer-deps"
 }
 
