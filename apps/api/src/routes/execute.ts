@@ -81,6 +81,21 @@ router.get('/execute/:executionId', async (req, res) => {
 })
 
 /**
+ * Helper function to safely write SSE data
+ */
+const writeSseData = (res: any, data: any): boolean => {
+  try {
+    if (!res.closed) {
+      res.write(`data: ${JSON.stringify(data)}\n\n`)
+      return true
+    }
+  } catch (error) {
+    console.error('Error writing SSE data:', error)
+  }
+  return false
+}
+
+/**
  * GET /api/execute/:executionId/logs
  * Stream execution logs (Server-Sent Events)
  */
@@ -94,7 +109,7 @@ router.get('/execute/:executionId/logs', async (req, res) => {
     res.setHeader('X-Accel-Buffering', 'no') // Disable nginx buffering
 
     // Send initial connection message
-    res.write(`data: ${JSON.stringify({ type: 'connected', executionId, timestamp: Date.now() })}\n\n`)
+    writeSseData(res, { type: 'connected', executionId, timestamp: Date.now() })
 
     let lastStatus: string | null = null
     let lastOutput: any = null

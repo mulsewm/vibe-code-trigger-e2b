@@ -8,6 +8,7 @@ import { createServer } from 'http'
 import appConfig from './config.js'
 import './trigger.js' // Initialize Trigger.dev configuration
 import executeRouter from './routes/execute.js'
+import healthRouter from './routes/health.js'
 
 const app = express()
 
@@ -20,14 +21,8 @@ if (appConfig.cors.enabled) {
 }
 app.use(express.json())
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    environment: appConfig.env,
-  })
-})
+// Health check routes (no prefix for easy monitoring)
+app.use(healthRouter)
 
 // API Routes
 app.use(appConfig.server.apiPrefix, executeRouter)

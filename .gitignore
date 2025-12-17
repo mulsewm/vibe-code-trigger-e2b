@@ -30,6 +30,8 @@ yarn-error.log*
 # Local env files
 .env*.local
 .env
+.env.production
+.env.development
 
 # Vercel
 .vercel
@@ -44,5 +46,13 @@ yarn-error.log*
 *.swo
 *~
 
-
+# Trigger.dev
 .trigger
+
+# Deployment
+deploy-*.log
+vercel-*.log
+
+# Temporary files
+*.tmp
+.temp/

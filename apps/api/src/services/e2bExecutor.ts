@@ -62,7 +62,7 @@ export class E2BExecutor {
           }
 
           // Execute command using the v2 SDK Commands API
-          const resultPromise = sandbox.commands.run(`bash -c ${JSON.stringify(command)}`, {
+          const resultPromise = sandbox.commands.run(command, {
             timeoutMs: timeout,
           })
 
@@ -182,26 +182,27 @@ export class E2BExecutor {
 
   /**
    * Prepare code for execution based on language
-   * Returns a bash command that writes code to a temp file and executes it
+   * Uses base64 encoding to safely handle multiline code with special characters
    */
   private prepareCode(code: string, language: string): string {
-    // Escape single quotes and backslashes for printf
-    const escapedCode = code.replace(/\\/g, '\\\\').replace(/'/g, "'\\''")
     const timestamp = Date.now()
     const random = Math.random().toString(36).substring(2, 8)
+    
+    // Encode code to base64 to safely handle newlines, quotes, and special characters
+    const base64Code = Buffer.from(code).toString('base64')
     
     switch (language.toLowerCase()) {
       case 'python':
         const pyFile = `/tmp/code_${timestamp}_${random}.py`
-        return `printf '%s\\n' '${escapedCode}' > ${pyFile} && python3 ${pyFile}; exitcode=$?; rm -f ${pyFile}; exit $exitcode`
+        return `echo '${base64Code}' | base64 -d > ${pyFile} && python3 ${pyFile}; exitcode=$?; rm -f ${pyFile}; exit $exitcode`
       case 'javascript':
       case 'js':
         const jsFile = `/tmp/code_${timestamp}_${random}.js`
-        return `printf '%s\\n' '${escapedCode}' > ${jsFile} && node ${jsFile}; exitcode=$?; rm -f ${jsFile}; exit $exitcode`
+        return `echo '${base64Code}' | base64 -d > ${jsFile} && node ${jsFile}; exitcode=$?; rm -f ${jsFile}; exit $exitcode`
       case 'typescript':
       case 'ts':
         const tsFile = `/tmp/code_${timestamp}_${random}.ts`
-        return `printf '%s\\n' '${escapedCode}' > ${tsFile} && npx tsx ${tsFile}; exitcode=$?; rm -f ${tsFile}; exit $exitcode`
+        return `echo '${base64Code}' | base64 -d > ${tsFile} && npx tsx ${tsFile}; exitcode=$?; rm -f ${tsFile}; exit $exitcode`
       case 'bash':
       case 'shell':
         return code
@@ -210,4 +211,3 @@ export class E2BExecutor {
     }
   }
 }
-
