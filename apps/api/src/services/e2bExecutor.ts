@@ -135,48 +135,29 @@ export class E2BExecutor {
 
   /**
    * Stream code execution logs in real-time
+   * Note: Real-time streaming is not available in e2b SDK v2
+   * This method is kept for API compatibility but executes synchronously
    */
   async *streamExecution(
     request: ExecutionRequest
   ): AsyncGenerator<{ type: 'stdout' | 'stderr'; data: string; timestamp: number }> {
-    const sandbox = await Sandbox.create('base', {
-      apiKey: this.apiKey,
-    })
-
-    try {
-      const codeToExecute = this.prepareCode(request.code, request.language)
-
-      // Write files if provided
-      if (request.projectContext?.files) {
-        for (const [path, content] of Object.entries(request.projectContext.files)) {
-          await sandbox.files.write(path, content)
-        }
+    // Execute code synchronously and yield results
+    const result = await this.executeCode(request)
+    
+    if (result.stdout) {
+      yield {
+        type: 'stdout',
+        data: result.stdout,
+        timestamp: Date.now(),
       }
-
-      // Execute and stream results
-      const process = await sandbox.process.start({
-        cmd: ['bash', '-c', codeToExecute],
-      })
-
-      // Stream stdout
-      for await (const chunk of process.stdout) {
-        yield {
-          type: 'stdout',
-          data: chunk,
-          timestamp: Date.now(),
-        }
+    }
+    
+    if (result.stderr) {
+      yield {
+        type: 'stderr',
+        data: result.stderr,
+        timestamp: Date.now(),
       }
-
-      // Stream stderr
-      for await (const chunk of process.stderr) {
-        yield {
-          type: 'stderr',
-          data: chunk,
-          timestamp: Date.now(),
-        }
-      }
-    } finally {
-      await sandbox.close()
     }
   }
 
